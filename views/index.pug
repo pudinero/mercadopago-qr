@@ -1,0 +1,189 @@
+<!-- 40932125 -->
+html
+	head
+		title()= 'POINT OF SALE | ACME (Exam)'
+		meta(charset="UTF-8")
+		link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous")
+		script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js")
+		script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous")
+		script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous")
+		link(rel="stylesheet" href="assets/style/acme.css")
+	
+	body
+		div
+			img(width="100px" style="display:inline;" src="https://pbs.twimg.com/profile_images/1240629438397722628/qmOFm9ar_400x400.jpg")
+			h1()= 'POINT OF SALE | ACME'
+			span()= 'Mercado Pago inStore QR Seller. Attended Mode. Exam version 1.0'
+		
+		br
+
+		div(id="accordion")
+
+			<!-- Create New Store -->
+			div(class="card")
+				div(class="card-header" id="headingOne")
+					h5(class="mb-0")
+						button(class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne")= 'CREATE NEW STORE'
+
+				div(id="collapseOne" class="collapse collapsed" aria-labelledby="headingOne" data-parent="#accordion")
+					div(class="card-body")
+						table(class="table table-striped")
+							tbody
+								tr
+									th
+										label(for="storeName")= 'Store Name:'
+									td
+										input(type="text" placeholder="Store name" id="storeName")
+								tr
+									th
+										label(for="streetName")= 'Street Name:'
+									td
+										input(type="text" placeholder="Street name" id="streetName")
+								tr
+									th
+										label(for="streetNumber")= 'Street Number:'
+									td
+										input(type="text" placeholder="Street Number" id="streetNumber")
+								tr
+									th
+										label(for="country")= 'Country:'
+									td
+										select(class="form-control" id="country")
+											option()= 'Select country...'
+								tr
+									th
+										label(for="states")= 'State:'
+									td
+										select(class="form-control" id="states")
+											option()= 'Select region...'
+								tr
+									th
+										label(for="cities")= 'City:'
+									td
+										select(class="form-control" id="cities")
+											option()= 'Select city...'
+								tr
+									th
+										label(for="latitude")= 'Latitude:'
+									td
+										input(type="text" placeholder="Latitude" id="latitude")
+								tr
+									th
+										label(for="longitude")= 'Longitude:'
+									td
+										input(type="text" placeholder="Longitude" id="longitude")
+								tr
+									th
+										label(for="addressReference")= 'Address Reference:'
+									td
+										input(type="text" placeholder="Address Reference" id="addressReference")
+								tr
+									th
+										label(for="externalStoreID")= 'External Store ID:'
+									td
+										input(type="text" placeholder="External ID" id="externalStoreID")
+
+						button(type="button" class="btn btn-primary" id="createStore")= 'Create Store'
+						br
+						br
+						p()= 'Q1) Store creation response:'
+						br
+						textarea(id="responseStore")
+						br
+
+			<!-- Create New POS/QR -->
+			div(class="card")
+				div(class="card-header" id="headingTwo")
+					h5(class="mb-0")
+						button(class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo")= 'CREATE NEW POS/QR'
+				div(id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion")
+					div(class="card-body")
+						label(for="posName")= 'POS Name:'
+						input(type="text" placeholder="POS Name" id="posName")
+						br
+						label(for="externalStoreIDPOS")= 'External Store ID:'
+						input(type="text" placeholder="External Store ID" id="externalStoreIDPOS")
+						br
+						label(for="externalPOSID")= 'External POS ID:'
+						input(type="text" placeholder="External ID" id="externalPOSID")
+						br
+						button(type="button" class="btn btn-primary" id="createPOS")= 'Create POS/QR'
+						br
+						br
+						p()= 'Q2) POS creation response:'
+						textarea(id="responsePOS")
+						br
+			
+			<!-- Order and payment -->
+			div(class="card")
+				div(class="card-header" id="headingThree")
+					h5(class="mb-0")
+						button(class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree")= 'ORDER AND PAYMENT'
+				div(id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion")
+					div(class="card-body")
+						label(for="store_id")= 'Store_ID:'
+						input(type="text" id="store_id" placeholder="Store_ID")
+						label(for="external_id")= 'External_POS_ID:'
+						input(type="text" id="external_id" placeholder="External_ID")
+						label(for="external_reference")= 'External_Reference:'
+						input(type="text" id="external_reference" placeholder="External_Reference")
+						br
+						div
+							h3()= 'Order:'
+						div
+							table(class="table table-striped")
+								thead
+									tr
+										th(scope="col")= 'SKU'
+										th(scope="col")= 'Photo'
+										th(scope="col")= 'Product'
+										th(scope="col")= 'Quantity'
+										th(scope="col")= 'Price'
+										th(scope="col")= 'Total'
+								tbody(id="productList")
+						div(id="paymentMethods")
+						div(id="paymentStatusView")
+
+						<!-- Button trigger modal -->
+						center
+							span()= 'Payment Method: '
+							button(type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-option="Cash")= 'Cash'
+							button(type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-option="Mercado Pago")= 'Mercado Pago - QR'
+							br
+							br
+							p()= 'Q3) Preference:'
+							br
+							textarea(id="createdOrder")
+							br
+							p()= 'Q4) Rejected payment:'
+							br
+							textarea(id="paymentStatusRejected")
+							br
+							p()= 'Q5) Payment Closed Status via Notification:'
+							br
+							textarea(id="paymentStatusNotification")
+							br
+							p()= 'Q6) Payment Closed Status via Search:'
+							br
+							textarea(id="paymentStatusSearch")
+							br
+			br
+			br
+
+			<!-- Modal -->
+			div(class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+				div(class="modal-dialog" role="document")
+					div(class="modal-content")
+						div(class="modal-header")
+							h5(class="modal-title" id="exampleModalLabel")= 'Pay with Mercado Pago'
+							button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+								span(aria-hidden="true")
+									| &times;
+						div(class="modal-body")
+						div(class="modal-footer")
+							button(type="button" class="btn btn-primary")= 'Cancel Payment'
+	
+	<!-- Main APP -->
+	script(src="assets/js/acme.js")
+	audio(id="cash")
+		source(src="assets/sounds/cash.mp3" type="audio/mpeg")
