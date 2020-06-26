@@ -5,11 +5,16 @@ var app = express();
 
 const port = process.env.PORT || 3000;
 
+var corsOptions = {
+    origin: 'https://pudinero-mercadopago-qr.herokuapp.com/',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
+
 app.use(express.static('public'));
 app.set('view engine', 'pug');
 app.use(cors())
 
-app.get('/', function (req, res) {
+app.get('/', cors(corsOptions), function (req, res) {
     res.render('index', { title: 'Hey', message: 'Hello there!'});
 });
 
