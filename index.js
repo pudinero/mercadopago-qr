@@ -1,4 +1,5 @@
 var express = require('express');
+var cors = require('cors')
 
 var app = express();
 
@@ -6,6 +7,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.static('public'));
 app.set('view engine', 'pug');
+app.use(cors())
 
 app.get('/', function (req, res) {
     res.render('index', { title: 'Hey', message: 'Hello there!'});
