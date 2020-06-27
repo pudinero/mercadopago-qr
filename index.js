@@ -36,13 +36,17 @@ app.post('/api/notifications', function (req, res) {
 
     lastBody = req.body
 
-    fs.writeFile('notifications.txt', req.body, (err) => {
+    console.log('//NOTIFICATION RECEIVED //')
+    console.log(req.body)
+    console.log('//END NOTIFICATION RECEIVED //')
+
+    fs.writeFile('public/notifications.txt', JSON.stringify(req.body), (err) => {
         // throws an error, you could also catch it here
         if (err) throw err;
     
         // success case, the file was saved
         console.log('Notification saved!');
-        console.log(req.body)
+        //console.log(req.body)
     });
 
     res.sendStatus(200)
@@ -50,7 +54,9 @@ app.post('/api/notifications', function (req, res) {
 
 
 app.get('/api/notifications/get', function (req, res) {
+    console.log('//GET NOTIFICATION //')
     console.log(lastBody)
+    console.log('//END GET NOTIFICATION //')
     res.send(lastBody)
 });
 
@@ -60,7 +66,9 @@ app.post('/api/order/create', function (req, res) {
     var urlapi = "https://api.mercadopago.com/mpmobile/instore/qr/" + collector_id + "/" + data.external_id + "?access_token=" + mercadopago.configurations.getAccessToken()
     
     data.json.notification_url = "https://pudinero-mercadopago-qr.herokuapp.com/api/notifications"
+    console.log('// CREATE ORDER //')
     console.log(data.json)
+    console.log('// END CREATE ORDER //')
 
     fetch(urlapi, {
         method: 'POST',
