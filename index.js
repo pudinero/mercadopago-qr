@@ -59,6 +59,7 @@ app.post('/api/order/create', function (req, res) {
 
     var urlapi = "https://api.mercadopago.com/mpmobile/instore/qr/" + collector_id + "/" + data.external_id + "?access_token=" + mercadopago.configurations.getAccessToken()
     
+    data.json.notification_url = "https://pudinero-mercadopago-qr.herokuapp.com/api/notifications"
     console.log(data.json)
 
     fetch(urlapi, {
