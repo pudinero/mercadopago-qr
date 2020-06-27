@@ -55,10 +55,9 @@ $(document).ready(function() {
 		    modal.find(".btn-primary").text("Cancel");
 		    
 
-		    // Muestra el código QR del punto de venta seleccionado
-
-		    // Llama al servicio de obtención de información de un POS/QR en base al external_pos_id o también llamado external_id
-			$.get("api/pos/get/",{"external_id":external_id},function(data){
+			// Muestra el código QR del punto de venta seleccionado
+			// Llama al servicio de obtención de información de un POS/QR en base al external_pos_id o también llamado external_id
+			$.post("api/pos/get/",{ external_id: external_id },function(data){
 				console.log("Obtención información de QR:");
 				console.log(data);
 
@@ -74,14 +73,15 @@ $(document).ready(function() {
 					// Agrega la URL notification_url 
 					// para recibir las notificaciones en tu endpoint público.
 
-					var orderJSON ={"external_reference": external_reference,
-									"notification_url": "",
-									"items" : items
-									};
+					var orderJSON ={
+						external_reference: external_reference,
+						notification_url: "https://pudinero-mercadopago-qr.herokuapp.com/api/notifications",
+						items: items
+					};
 
 					// Crea orden en base al external_id de la página
 
-					$.post("api/order/create/",{"external_id":external_id,"json":JSON.stringify(orderJSON)},function(data){
+					$.post("api/order/create/",{ external_id: external_id, json: orderJSON },function(data){
 
 						console.log("Crea orden:");
 						console.log(data);
@@ -102,7 +102,7 @@ $(document).ready(function() {
 
 							// Comprueba estado del pago vía Seach de Merchant_order
 
-							$.get("api/order/status/",{"external_reference":external_reference},function(data){
+							$.post("api/order/status/",{ external_reference: external_reference },function(data){
 								
 								console.log("Search de Merchant_order:");
 								console.log(data);
@@ -200,8 +200,9 @@ $(document).ready(function() {
 		    	// Clear check status interval
 		    	clearInterval(checkStatus);
 
-				$.get("api/order/delete/",{"external_id":external_id},function(){
-					
+				$.post("api/order/delete/",{ external_id: external_id },function(data){
+					console.log("Deleting order " + external_id);
+					console.log(data);
 				});
 
 		    	$('#exampleModal').modal("hide");
@@ -325,14 +326,31 @@ $(document).ready(function() {
 		// REVISA AQUÍ:
 		// Modifica el storeJSON con la estructura necesaria para crear una Store correctamente.
 
-		var storeJSON = {}
+		var storeJSON = {
+			name: document.getElementById('storeName').value,
+			location: {
+				street_number: document.getElementById('streetNumber').value,
+				street_name: document.getElementById('streetName').value,
+				city_name: $("#cities option:selected").text(),
+				state_name: $("#states option:selected").text(),
+				latitude: parseFloat(document.getElementById('latitude').value),
+				longitude: parseFloat(document.getElementById('longitude').value),
+				reference: document.getElementById('addressReference').value,
+			},
+			external_id: document.getElementById('externalStoreID').value
+		}
 
 		console.log(storeJSON);
-		$.post("api/store/create/",{json:JSON.stringify(storeJSON)},function(results){
+		$.post("api/store/create/",storeJSON,function(results){
 			console.log("Crea store:");
 			console.log(results);
 			$("#responseStore").text(JSON.stringify(results));
 		});
+		/*$.post("api/store/create/",{json:JSON.stringify(storeJSON)},function(results){
+			console.log("Crea store:");
+			console.log(results);
+			$("#responseStore").text(JSON.stringify(results));
+		});*/
 	});
 
 ///////////////////////////////////////////////////////////////////////////
@@ -341,28 +359,28 @@ $(document).ready(function() {
 
 	$('#createPOS').click(function(){
 
-		var posName=$('#storeName').val();
+		var posName=$('#posName').val();
 		var externalStoreID=$('#externalStoreIDPOS').val();
 		var externalPOSID=$('#externalPOSID').val();
 
 		// REVISA AQUÍ:
 
-		var category = 1;   // Agrega aquí el número de categoría o MCC necesario para 
+		var category = 621102;   // Agrega aquí el número de categoría o MCC necesario para 
 							// Identificar al POS de restaurante
 
 
 		// REVISA AQUÍ:
 		// Comprueba que el posJSON sea el adecuado para crear un POS integrado correctamente.
 
-		var posJSON ={"name":posName,
-					"external_store_id":externalStoreID,
-					"fixed_amount":false,
-					"category_id":category,
-					"external_id":externalPOSID};
+		var posJSON ={
+			name: posName,
+			external_store_id: externalStoreID,
+			fixed_amount: true,
+			category: parseInt(category),
+			external_id: externalPOSID
+		};
 
-
-
-		$.post("api/pos/create/",{json:JSON.stringify(posJSON)},function(results){
+		$.post("api/pos/create/",posJSON,function(results){
 			console.log("Crea POS/QR:");
 			console.log(results);
 
